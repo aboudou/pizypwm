@@ -12,6 +12,10 @@ Warning
 Due to the non real-time capacities of Python language, do not expect PWM to be very accurate. Pulses will never exactly last the theorical duration. But PiZyPwn will be enough if you don't need a great accuracy.
 
 
+Running example.py
+------------------
+
+To run this example code, you'll need the assembly you'll find [here](https://goddess-gate.com/dc2/index.php/pages/raspiledmeter.en)
 
 Requirements
 ------------
