@@ -8,7 +8,7 @@ class PiZyPwm(threading.Thread):
      """ 
      Init the PiZyPwm instance. Expected parameters are :
      - baseTime : the base time in seconds for the PWM pattern. You may choose a small value (i.e 0.01 s)
-     - nbSlices : the number of divisions of the PWM pattern. A single pulse will have a min duration of baseTime / nbSlices
+     - nbSlices : the number of divisions of the PWM pattern. A single pulse will have a min duration of baseTime * (1 / nbSlices)
      - gpioPin : the pin number which will act as PWM ouput
      - gpioScheme : the GPIO naming scheme (see RPi.GPIO documentation)
      """
@@ -26,7 +26,8 @@ class PiZyPwm(threading.Thread):
     - nbSlicesOn : number of divisions (on a total of nbSlices - see init() doc) to set HIGH output on the GPIO pin
     
     Exemple : with a total of 100 slices, a baseTime of 1 second, and an nbSlicesOn set to 25, the PWM pattern will
-    have a duration of 1 second, will stay for 1/25 seconds on HIGH output, and 1/(100-25) seconds on LOW output.
+    have a duty cycle of 25%. With a duration of 1 second, will stay HIGH for 1*(25/100) seconds on HIGH output, and
+    1*(75/100) seconds on LOW output.
     """
     self.nbSlicesOn = nbSlicesOn
     GPIO.setup(self.gpioPin, GPIO.OUT)
@@ -50,7 +51,8 @@ class PiZyPwm(threading.Thread):
     - nbSlicesOn : number of divisions (on a total of nbSlices - see init() doc) to set HIGH output on the GPIO pin
     
     Exemple : with a total of 100 slices, a baseTime of 1 second, and an nbSlicesOn set to 25, the PWM pattern will
-    have a duration of 1 second, will stay for 1/25 seconds on HIGH output, and 1/(100-25) seconds on LOW output.
+    have a duty cycle of 25%. With a duration of 1 second, will stay HIGH for 1*(25/100) seconds on HIGH output, and
+    1*(75/100) seconds on LOW output.
     """
     self.nbSlicesOn = nbSlicesOn
 
@@ -60,7 +62,8 @@ class PiZyPwm(threading.Thread):
     - nbSlices : number of divisions of the PWM pattern.
     
     Exemple : with a total of 100 slices, a baseTime of 1 second, and an nbSlicesOn set to 25, the PWM pattern will
-    have a duration of 1 second, will stay for 1/25 seconds on HIGH output, and 1/(100-25) seconds on LOW output.
+    have a duty cycle of 25%. With a duration of 1 second, will stay HIGH for 1*(25/100) seconds on HIGH output, and
+    1*(75/100) seconds on LOW output.
     """
     if self.nbSlicesOn > nbSlices:
       self.nbSlicesOn = nbSlices
@@ -74,7 +77,8 @@ class PiZyPwm(threading.Thread):
     - baseTime : the base time in seconds for the PWM pattern.
     
     Exemple : with a total of 100 slices, a baseTime of 1 second, and an nbSlicesOn set to 25, the PWM pattern will
-    have a duration of 1 second, will stay for 1/25 seconds on HIGH output, and 1/(100-25) seconds on LOW output.
+    have a duty cycle of 25%. With a duration of 1 second, will stay HIGH for 1*(25/100) seconds on HIGH output, and
+    1*(75/100) seconds on LOW output.
     """
     self.baseTime = baseTime
     self.sliceTime = self.baseTime / self.nbSlices
