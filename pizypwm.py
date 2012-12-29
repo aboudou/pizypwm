@@ -39,10 +39,12 @@ class PiZyPwm(threading.Thread):
     Run the PWM pattern into a background thread. This function should not be called outside of this class.
     """
     while self.toTerminate == False:
-      GPIO.output(self.gpioPin, GPIO.HIGH)
-      time.sleep(self.nbSlicesOn * self.sliceTime)
-      GPIO.output(self.gpioPin, GPIO.LOW)
-      time.sleep((self.nbSlices - self.nbSlicesOn) * self.sliceTime)
+      if self.nbSlicesOn > 0:
+        GPIO.output(self.gpioPin, GPIO.HIGH)
+        time.sleep(self.nbSlicesOn * self.sliceTime)
+      if self.nbSlicesOn < self.nbSlices:
+        GPIO.output(self.gpioPin, GPIO.LOW)
+        time.sleep((self.nbSlices - self.nbSlicesOn) * self.sliceTime)
     self.terminated = True
 
   def changeNbSlicesOn(self, nbSlicesOn):
