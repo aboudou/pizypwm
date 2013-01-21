@@ -4,86 +4,73 @@ import time
  
 class PiZyPwm(threading.Thread):
 
-  def __init__(self, baseTime, nbSlices, gpioPin, gpioScheme):
+  def __init__(self, frequency, gpioPin, gpioScheme):
      """ 
      Init the PiZyPwm instance. Expected parameters are :
-     - baseTime : the base time in seconds for the PWM pattern. You may choose a small value (i.e 0.01 s)
-     - nbSlices : the number of divisions of the PWM pattern. A single pulse will have a min duration of baseTime * (1 / nbSlices)
+     - frequency : the frequency in Hz for the PWM pattern. A correct value may be 100.
      - gpioPin : the pin number which will act as PWM ouput
      - gpioScheme : the GPIO naming scheme (see RPi.GPIO documentation)
      """
-     self.sliceTime = baseTime / nbSlices
-     self.baseTime = baseTime
-     self.nbSlices = nbSlices
+     self.baseTime = 1.0 / frequency
+     self.maxCycle = 100.0
+     self.sliceTime = self.baseTime / self.maxCycle
      self.gpioPin = gpioPin
      self.terminated = False
      self.toTerminate = False
      GPIO.setmode(gpioScheme)
 
-  def start(self, nbSlicesOn):
+
+  def start(self, dutyCycle):
     """
     Start PWM output. Expected parameter is :
-    - nbSlicesOn : number of divisions (on a total of nbSlices - see init() doc) to set HIGH output on the GPIO pin
+    - dutyCycle : percentage of a single pattern to set HIGH output on the GPIO pin
     
-    Exemple : with a total of 100 slices, a baseTime of 1 second, and an nbSlicesOn set to 25, the PWM pattern will
-    have a duty cycle of 25%. With a duration of 1 second, will stay HIGH for 1*(25/100) seconds on HIGH output, and
-    1*(75/100) seconds on LOW output.
+    Example : with a frequency of 1 Hz, and a duty cycle set to 25, GPIO pin will 
+    stay HIGH for 1*(25/100) seconds on HIGH output, and 1*(75/100) seconds on LOW output.
     """
-    self.nbSlicesOn = nbSlicesOn
+    self.dutyCycle = dutyCycle
     GPIO.setup(self.gpioPin, GPIO.OUT)
     self.thread = threading.Thread(None, self.run, None, (), {})
     self.thread.start()
+
 
   def run(self):
     """
     Run the PWM pattern into a background thread. This function should not be called outside of this class.
     """
     while self.toTerminate == False:
-      if self.nbSlicesOn > 0:
+      if self.dutyCycle > 0:
         GPIO.output(self.gpioPin, GPIO.HIGH)
-        time.sleep(self.nbSlicesOn * self.sliceTime)
-      if self.nbSlicesOn < self.nbSlices:
+        time.sleep(self.dutyCycle * self.sliceTime)
+      
+      if self.dutyCycle < self.maxCycle:
         GPIO.output(self.gpioPin, GPIO.LOW)
-        time.sleep((self.nbSlices - self.nbSlicesOn) * self.sliceTime)
+        time.sleep((self.maxCycle - self.dutyCycle) * self.sliceTime)
+
     self.terminated = True
 
-  def changeNbSlicesOn(self, nbSlicesOn):
+
+  def changeDutyCycle(self, dutyCycle):
     """
     Change the duration of HIGH output of the pattern. Expected parameter is :
-    - nbSlicesOn : number of divisions (on a total of nbSlices - see init() doc) to set HIGH output on the GPIO pin
+    - dutyCycle : percentage of a single pattern to set HIGH output on the GPIO pin
     
-    Exemple : with a total of 100 slices, a baseTime of 1 second, and an nbSlicesOn set to 25, the PWM pattern will
-    have a duty cycle of 25%. With a duration of 1 second, will stay HIGH for 1*(25/100) seconds on HIGH output, and
-    1*(75/100) seconds on LOW output.
+    Example : with a frequency of 1 Hz, and a duty cycle set to 25, GPIO pin will 
+    stay HIGH for 1*(25/100) seconds on HIGH output, and 1*(75/100) seconds on LOW output.
     """
-    self.nbSlicesOn = nbSlicesOn
+    self.dutyCycle = dutyCycle
 
-  def changeNbSlices(self, nbSlices):
+
+  def changeFrequency(self, frequency):
     """
-    Change the number of slices of the PWM pattern. Expected parameter is :
-    - nbSlices : number of divisions of the PWM pattern.
+    Change the frequency of the PWM pattern. Expected parameter is :
+    - frequency : the frequency in Hz for the PWM pattern. A correct value may be 100.
     
-    Exemple : with a total of 100 slices, a baseTime of 1 second, and an nbSlicesOn set to 25, the PWM pattern will
-    have a duty cycle of 25%. With a duration of 1 second, will stay HIGH for 1*(25/100) seconds on HIGH output, and
-    1*(75/100) seconds on LOW output.
+    Example : with a frequency of 1 Hz, and a duty cycle set to 25, GPIO pin will 
+    stay HIGH for 1*(25/100) seconds on HIGH output, and 1*(75/100) seconds on LOW output.
     """
-    if self.nbSlicesOn > nbSlices:
-      self.nbSlicesOn = nbSlices
-
-    self.nbSlices = nbSlices
-    self.sliceTime = self.baseTime / self.nbSlices
-
-  def changeBaseTime(self, baseTime):
-    """
-    Change the base time of the PWM pattern. Expected parameter is :
-    - baseTime : the base time in seconds for the PWM pattern.
-    
-    Exemple : with a total of 100 slices, a baseTime of 1 second, and an nbSlicesOn set to 25, the PWM pattern will
-    have a duty cycle of 25%. With a duration of 1 second, will stay HIGH for 1*(25/100) seconds on HIGH output, and
-    1*(75/100) seconds on LOW output.
-    """
-    self.baseTime = baseTime
-    self.sliceTime = self.baseTime / self.nbSlices
+    self.baseTime = 1.0 / frequency
+    self.sliceTime = self.baseTime / self.maxCycle
 
 
   def stop(self):
