@@ -1,18 +1,10 @@
-PiZyPwm
-=======
+PiZyPwm (RPi.GPIO flavor)
+=========================
 
 PiZyPwm, for Raspberry (Pi) Ea(zy) PWM, is an easy way to implement PWM (Pulse Width Modulation) output on a Raspberry Pi using Python language.
 
 * [PiZyPwm in action](http://www.youtube.com/watch?v=1X_FYJ5x6Wo)
 * [PiZyPwm with a digital oscilloscope](http://www.youtube.com/watch?v=aP1F67PtaVc)
-
-
-GitHub branches
----------------
-
-More than one branches are available on GitHub repository : 
-- “master” : if you plan to use PiZyPwm with onboard GPIO pins.
-- “quick2wire” : if you plan to use PiZyPwn with [Quick2Wire expansion board](http://quick2wire.com/). Thanks to [SirHegel77](https://github.com/SirHegel77/) for the code.
 
 
 Warning
