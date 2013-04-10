@@ -15,22 +15,24 @@ def endProcess(signalnum = None, handler = None):
     seventh.stop()
     eighth.stop()
 
-    GPIO.cleanup()
     exit(0)
 
 # Prepare handlers for process exit
 signal.signal(signal.SIGTERM, endProcess)
 signal.signal(signal.SIGINT, endProcess)
 
+# Initialize MCP230XX chip
+mcp = Adafruit_MCP230XX(address = 0x20, num_gpios = 8)
+
 # Initialize PWM outputs
-first   = PiZyPwm(100, 7, GPIO.BOARD)
-second  = PiZyPwm(100, 11, GPIO.BOARD)
-third   = PiZyPwm(100, 12, GPIO.BOARD)
-fourth  = PiZyPwm(100, 13, GPIO.BOARD)
-fifth   = PiZyPwm(100, 15, GPIO.BOARD)
-sixth   = PiZyPwm(100, 16, GPIO.BOARD)
-seventh = PiZyPwm(100, 18, GPIO.BOARD)
-eighth  = PiZyPwm(100, 22, GPIO.BOARD)
+first   = PiZyPwm(100, 0, mcp)
+second  = PiZyPwm(100, 1, mcp)
+third   = PiZyPwm(100, 2, mcp)
+fourth  = PiZyPwm(100, 3, mcp)
+fifth   = PiZyPwm(100, 4, mcp)
+sixth   = PiZyPwm(100, 5, mcp)
+seventh = PiZyPwm(100, 6, mcp)
+eighth  = PiZyPwm(100, 7, mcp)
 
 # Initialize directions 
 #  "up" = we will allocate more and more time to HIGH output (aka the LED will be brighter)

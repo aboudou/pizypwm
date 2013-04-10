@@ -10,9 +10,10 @@ PiZyPwm, for Raspberry (Pi) Ea(zy) PWM, is an easy way to implement PWM (Pulse W
 Subprojects
 -----------
 
-There are two available subproject:
+There are three available sub-project:
 - “rpi.gpio” : if you plan to use PiZyPwm with onboard GPIO pins. It uses RPi.GPIO library, but is now obsolete as RPi.GPIO library now includes software PWM.
-- “quick2wire” : if you plan to use PiZyPwn with [Quick2Wire expansion board](http://quick2wire.com/). Thanks to [SirHegel77](https://github.com/SirHegel77/) for the code.
+- “quick2wire” : if you plan to use PiZyPwm with [Quick2Wire expansion board](http://quick2wire.com/). Thanks to [SirHegel77](https://github.com/SirHegel77/) for the code.
+- “mcp230xx” : if you plan to use PiZyPwm with an MCP23008 or MCP23017 GPIO expander.
 
 
 Warning
@@ -24,4 +25,4 @@ Due to the non real-time capacities of Python language, do not expect PWM to be 
 Example
 -------
 
-See README.md into each subproject folder.
+See README.md into each sub-project folder.
