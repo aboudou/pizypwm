@@ -10,7 +10,7 @@ PiZyPwm, for Raspberry (Pi) Ea(zy) PWM, is an easy way to implement PWM (Pulse W
 Warning
 -------
 
-Due to the non real-time capacities of Python language, do not expect PWM to be very accurate. Pulses will never exactly last the theorical duration. But PiZyPwn will be enough if you don't need a great accuracy.
+Due to the non real-time capacities of Python language, do not expect PWM to be very accurate. Pulses will never exactly last the theorical duration. But PiZyPwm will be enough if you don't need a great accuracy.
 
 
 Running example.py
