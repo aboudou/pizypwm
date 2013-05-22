@@ -17,7 +17,7 @@ Due to the non real-time capacities of Python language, do not expect PWM to be 
 Running example.py
 ------------------
 
-To run this example code, you'll need the assembly you'll find [here](https://goddess-gate.com/dc2/index.php/pages/raspiledmeter.en)
+To run this example code, you'll need the assembly you'll find [here](https://goddess-gate.com/projects/en/raspi/raspiledmeter)
 
 Requirements
 ------------
