@@ -3,7 +3,7 @@ PiZyPwm (MCP230XX flavor)
 
 PiZyPwm, for Raspberry (Pi) Ea(zy) PWM, is an easy way to implement PWM (Pulse Width Modulation) output on a Raspberry Pi using Python language.
 
-* [Project's website](https://goddess-gate.com/projects/en/raspi/pizypwm)
+* [Project's website](http://goddess-gate.com/projects/en/raspi/pizypwm)
 * [PiZyPwm in action](http://www.youtube.com/watch?v=1X_FYJ5x6Wo)
 * [PiZyPwm with a digital oscilloscope](http://www.youtube.com/watch?v=aP1F67PtaVc)
 
